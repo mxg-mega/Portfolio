@@ -1,193 +1,454 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Muhammad Aliyu Abubakar - Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muhammad Aliyu Abubakar — Systems, Apps, Worlds</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#ECEDE7;
+    --ink:#14171C;
+    --ink-soft:#4B4F57;
+    --panel:#1E2A44;
+    --panel-soft:#28365A;
+    --signal:#F2B705;
+    --ok:#3E7C59;
+    --warn:#B65C2E;
+    --line:#C7C9BE;
+    --line-dark:#3A4766;
+    --radius:2px;
+    --mono:'JetBrains Mono', monospace;
+    --sans:'Manrope', sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.5;
+  }
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+
+  /* NAV */
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(236,237,231,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;max-width:1080px;margin:0 auto;}
+  .logo{font-family:var(--mono);font-weight:800;letter-spacing:0.02em;font-size:15px;}
+  .logo span{color:var(--warn);}
+  nav.links{display:flex;gap:28px;font-family:var(--mono);font-size:12px;letter-spacing:0.08em;text-transform:uppercase;}
+  nav.links a{color:var(--ink-soft);border-bottom:2px solid transparent;padding-bottom:2px;transition:border-color .15s;}
+  nav.links a:hover{border-color:var(--signal);color:var(--ink);}
+  
+  /* Mobile Menu */
+  .menu-btn{display:none;background:none;border:1px solid var(--ink);border-radius:var(--radius);padding:6px 10px;font-family:var(--mono);font-size:12px;cursor:pointer;}
+  .mobile-menu{
+    display:none;position:absolute;top:100%;left:0;right:0;background:var(--paper);border-bottom:1px solid var(--line);padding:16px 24px;
+  }
+  .mobile-menu a{display:block;padding:8px 0;font-family:var(--mono);font-size:13px;}
+  @media (max-width: 760px) {
+    .menu-btn{display:block;}
+    nav.links{display:none;}
+  }
+
+  /* HERO */
+  .hero{padding:88px 0 56px;}
+  .eyebrow{
+    font-family:var(--mono);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;
+    color:var(--warn);margin-bottom:18px;
+  }
+  .prompt{font-family:var(--mono);color:var(--ink-soft);font-size:14px;margin-bottom:10px;}
+  .prompt .cursor{display:inline-block;width:8px;height:15px;background:var(--ink);margin-left:4px;vertical-align:middle;animation:blink 1s steps(1) infinite;}
+  @media (prefers-reduced-motion:reduce){.prompt .cursor{animation:none;}}
+  @keyframes blink{50%{opacity:0;}}
+  h1.name{
+    font-family:var(--mono);font-weight:800;font-size:clamp(30px,5.2vw,54px);
+    letter-spacing:-0.01em;margin:0 0 18px;line-height:1.08;
+  }
+  .hero p.sub{font-size:19px;max-width:600px;color:var(--ink-soft);margin:0 0 30px;}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{
+    font-family:var(--mono);font-size:13px;letter-spacing:0.04em;text-transform:uppercase;
+    padding:13px 22px;border-radius:var(--radius);display:inline-block;border:1.5px solid var(--ink);
+    transition:all .15s;
+  }
+  .btn.primary{background:var(--ink);color:var(--paper);}
+  .btn.primary:hover{background:var(--signal);color:var(--ink);border-color:var(--signal);}
+  .btn.ghost:hover{background:var(--ink);color:var(--paper);}
+
+  /* STATUS BOARD */
+  .board{background:var(--panel);color:#E8EAF0;margin:0 0 72px;}
+  .board-inner{max-width:1080px;margin:0 auto;padding:26px 24px;}
+  .board-title{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#8C9BC0;margin-bottom:16px;}
+  .board-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line-dark);border:1px solid var(--line-dark);}
+  .board-row{background:var(--panel);padding:16px 18px;}
+  .board-row .label{font-family:var(--mono);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#9AA6C4;margin-bottom:8px;}
+  .board-row .status{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:13px;font-weight:700;}
+  .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+  .dot.on{background:#5FD98A;box-shadow:0 0 0 0 rgba(95,217,138,.6);animation:pulse 2s infinite;}
+  .dot.proto{background:var(--signal);}
+  .dot.open{background:#5FD98A;animation:pulse 2s infinite;}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(95,217,138,.5);}
+    70%{box-shadow:0 0 0 6px rgba(95,217,138,0);}
+    100%{box-shadow:0 0 0 0 rgba(95,217,138,0);}
+  }
+  @media (prefers-reduced-motion:reduce){.dot.on,.dot.open{animation:none;}}
+  @media (max-width:800px){.board-grid{grid-template-columns:1fr 1fr;}}
+  @media (max-width:480px){.board-grid{grid-template-columns:1fr;}}
+
+  /* SECTION HEADERS */
+  section{padding:0 0 72px;}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:32px;}
+  .sec-num{font-family:var(--mono);color:var(--warn);font-size:13px;}
+  h2{font-family:var(--mono);font-size:22px;font-weight:700;margin:0;letter-spacing:-0.01em;}
+  .sec-line{flex:1;height:1px;background:var(--line);}
+
+  /* ABOUT */
+  .about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:48px;}
+  .about-grid p{color:var(--ink-soft);font-size:16px;margin:0 0 16px;}
+  .facts{border:1px solid var(--line);padding:20px;}
+  .facts dt{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--warn);margin-top:14px;}
+  .facts dt:first-child{margin-top:0;}
+  .facts dd{margin:2px 0 0;font-size:14px;}
+  @media (max-width:760px){.about-grid{grid-template-columns:1fr;}}
+
+  /* SERVICES */
+  .services{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+  .service{background:var(--paper);padding:26px 22px;}
+  .service .tag{font-family:var(--mono);font-size:11px;color:var(--warn);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:10px;}
+  .service h3{font-size:18px;margin:0 0 10px;}
+  .service p{color:var(--ink-soft);font-size:14px;margin:0;}
+  @media (max-width:760px){.services{grid-template-columns:1fr;}}
+
+  /* PROJECTS */
+  .track{margin-bottom:44px;}
+  .track-label{font-family:var(--mono);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+  .track-label::after{content:'';flex:1;height:1px;background:var(--line);}
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .card{border:1px solid var(--line);padding:20px;display:flex;flex-direction:column;background:#F4F5F0;transition:transform .12s ease, border-color .15s, box-shadow .2s ease;position:relative;}
+  .card:hover{border-color:var(--ink);box-shadow:0 22px 38px -20px rgba(20,23,28,.3);}
+  .service{transition:transform .12s ease, box-shadow .2s ease;}
+  .service:hover{box-shadow:0 22px 38px -20px rgba(20,23,28,.22);}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+  .card h4{font-size:16px;margin:0;}
+  .pill{font-family:var(--mono);font-size:10px;padding:3px 7px;border-radius:20px;letter-spacing:0.05em;text-transform:uppercase;white-space:nowrap;}
+  .pill.shipped{background:rgba(62,124,89,0.15);color:var(--ok);}
+  .pill.progress{background:rgba(242,183,5,0.18);color:#8a6a00;}
+  .pill.slot{background:rgba(75,79,57,0.1);color:var(--ink-soft);}
+  .card p{font-size:13.5px;color:var(--ink-soft);margin:0 0 14px;flex:1;}
+  .stack{font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-bottom:12px;}
+  .card a.link{font-family:var(--mono);font-size:12px;font-weight:700;border-bottom:1.5px solid var(--ink);align-self:flex-start;}
+  .card.placeholder{background:transparent;border-style:dashed;justify-content:center;align-items:center;text-align:center;color:var(--ink-soft);}
+  .card.placeholder p{margin:0;font-size:13px;}
+  @media (max-width:900px){.cards{grid-template-columns:1fr 1fr;}}
+  @media (max-width:600px){.cards{grid-template-columns:1fr;}}
+
+  /* SKILLS */
+  .skill-groups{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .skill-group h3{font-family:var(--mono);font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:var(--warn);margin:0 0 12px;}
+  .chip-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{font-family:var(--mono);font-size:12px;border:1px solid var(--line);padding:5px 10px;border-radius:20px;background:#F4F5F0;}
+  @media (max-width:760px){.skill-groups{grid-template-columns:1fr;}}
+
+  /* CONTACT */
+  .contact-panel{background:var(--panel);color:#E8EAF0;padding:56px 0;}
+  .contact-panel .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:32px;align-items:flex-end;}
+  .contact-panel h2{color:#fff;}
+  .contact-panel .sec-num{color:var(--signal);}
+  .contact-links{display:flex;flex-direction:column;gap:8px;font-family:var(--mono);font-size:14px;}
+  .contact-links a{border-bottom:1px solid transparent;}
+  .contact-links a:hover{border-color:var(--signal);color:var(--signal);}
+  .contact-panel .btn.primary{background:var(--signal);color:var(--panel);border-color:var(--signal);}
+  .contact-panel .btn.primary:hover{background:#fff;border-color:#fff;}
+
+  footer{padding:24px;text-align:center;font-family:var(--mono);font-size:11px;color:var(--ink-soft);}
+
+  /* CURSOR GLOW */
+  .cursor-glow{
+    position:fixed;top:0;left:0;
+    width:520px;height:520px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(242,183,5,0.95) 0%, rgba(242,183,5,0) 62%);
+    pointer-events:none;
+    transform:translate(-50%,-50%);
+    z-index:3;
+    mix-blend-mode:soft-light;
+    opacity:0;
+    transition:opacity .4s ease;
+    will-change:transform;
+  }
+  .cursor-glow.active{opacity:1;}
+  @media (hover:none),(pointer:coarse){.cursor-glow{display:none !important;}}
+</style>
 </head>
 <body>
-    <header>
-        <nav>
-            <a class="logo" href="#home">MAA</a>
-            <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <main>
-        <section id="home" class="hero">
-            <div class="hero-content container">
-                <p class="hero-tag">Flutter Developer • Software Engineer</p>
-                <h1>Muhammad Aliyu Abubakar</h1>
-                <h2>I build reliable Flutter apps that solve practical business problems.</h2>
-                <div class="hero-cta">
-                    <a href="#projects" class="btn btn-primary">View Projects</a>
-                    <a href="#contact" class="btn btn-secondary">Contact Me</a>
-                </div>
-                <div class="social-links">
-                    <a href="mailto:muhammadmasanawa75@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
-                    <a href="https://github.com/mxg-mega" target="_blank" rel="noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="https://www.linkedin.com/in/muhammad-aliyu-abubakar-5a6360237" target="_blank" rel="noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                </div>
-            </div>
-        </section>
+<header class="nav">
+  <div class="nav-inner">
+    <div class="logo">MAA<span>_</span></div>
+    <nav class="links">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="menu-btn" onclick="toggleMenu()">MENU</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about" onclick="toggleMenu()">About</a>
+    <a href="#services" onclick="toggleMenu()">Services</a>
+    <a href="#projects" onclick="toggleMenu()">Projects</a>
+    <a href="#skills" onclick="toggleMenu()">Skills</a>
+    <a href="#contact" onclick="toggleMenu()">Contact</a>
+  </div>
+</header>
 
-        <section id="results">
-            <div class="container">
-                <h2>Quick Snapshot</h2>
-                <div class="snapshot-grid">
-                    <article class="snapshot-card">
-                        <h3>3+</h3>
-                        <p>Flutter projects showcased with production-focused features.</p>
-                    </article>
-                    <article class="snapshot-card">
-                        <h3>2</h3>
-                        <p>Data sources used regularly: cloud backend and local persistence.</p>
-                    </article>
-                    <article class="snapshot-card">
-                        <h3>100%</h3>
-                        <p>Cross-platform mindset for mobile and desktop app experiences.</p>
-                    </article>
-                </div>
-            </div>
-        </section>
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Software Engineer · Flutter Developer · Game Developer</div>
+    <div class="prompt">$ whoami<span class="cursor"></span></div>
+    <h1 class="name">Muhammad Aliyu Abubakar</h1>
+    <p class="sub">I build the modules other people's businesses run on — SaaS platforms, cross-platform apps, and the odd game prototype. One developer, shipped like a team.</p>
+    <div class="cta-row">
+      <a class="btn primary" href="#contact">Hire me</a>
+      <a class="btn primary" href="Software_Engineer_Muhammad_Aliyu_Abubakar.pdf" target="_blank" rel="noopener">Download CV (Software Engineer)</a>
+      <a class="btn ghost" href="https://github.com/mxg-mega" target="_blank" rel="noopener">View GitHub</a>
+      <a class="btn ghost" href="https://bizmod.vercel.app" target="_blank" rel="noopener">See BizMod live</a>
+    </div>
+  </div>
+</section>
 
-        <section id="about">
-            <div class="container">
-                <h2>About Me</h2>
-                <div class="about-content">
-                    <p>Self-driven Flutter developer with strong hands-on experience building cross-platform mobile and desktop apps. Skilled in Dart, Firebase integration, state management, and modern UI development. Proven ability to learn quickly, manage personal projects, collaborate in team settings, and solve real-world problems through code.</p>
-                    <div class="education">
-                        <h3>Education</h3>
-                        <div class="education-item">
-                            <h4>Bachelor of Science in Biochemistry</h4>
-                            <p>Kaduna State University, Nigeria (Expected 2025)</p>
-                        </div>
-                        <div class="education-item">
-                            <h4>Diploma in Arabic Language Education</h4>
-                            <p>Alkanar International Academy, Nigeria (2018-2021)</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+<div class="board">
+  <div class="board-inner">
+    <div class="board-title">// current status</div>
+    <div class="board-grid">
+      <div class="board-row">
+        <div class="label">Software Eng.</div>
+        <div class="status"><span class="dot on"></span>Shipped</div>
+      </div>
+      <div class="board-row">
+        <div class="label">Flutter Dev.</div>
+        <div class="status"><span class="dot on"></span>Shipped</div>
+      </div>
+      <div class="board-row">
+        <div class="label">Game Dev.</div>
+        <div class="status"><span class="dot proto"></span>Prototype</div>
+      </div>
+      <div class="board-row">
+        <div class="label">Availability</div>
+        <div class="status"><span class="dot open"></span>Open for contract</div>
+      </div>
+    </div>
+  </div>
+</div>
 
-        <section id="projects">
-            <div class="container">
-                <h2>Featured Projects</h2>
-                <div class="project-grid">
-                    <article class="project">
-                        <h3>Shop Mate</h3>
-                        <p class="project-status">In Progress – Personal Project</p>
-                        <p>Business Management System app with sales tracking, inventory management, and multi-store support.</p>
-                        <p class="project-stack">Flutter • Firebase • SQLite</p>
-                    </article>
-                    <article class="project">
-                        <h3>Avatar Duet</h3>
-                        <p>3D model viewer for `.glb` files with interactive visualization and local file handling.</p>
-                        <p class="project-stack">Flutter • 3D Assets • File Picker</p>
-                        <a href="https://github.com/mxg-mega/HNG-Mobile-Desktop/tree/main/avatar_duet" target="_blank" rel="noreferrer" class="project-link">View Project</a>
-                    </article>
-                    <article class="project">
-                        <h3>Globe Guide</h3>
-                        <p>Country information explorer that demonstrates REST API integration and dynamic UI rendering.</p>
-                        <p class="project-stack">Flutter • REST API • JSON Parsing</p>
-                        <a href="https://github.com/mxg-mega/HNG-Mobile-Desktop/tree/main/globe_guide" target="_blank" rel="noreferrer" class="project-link">View Project</a>
-                    </article>
-                </div>
-            </div>
-        </section>
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">01</span><h2>About</h2><div class="sec-line"></div></div>
+    <div class="about-grid">
+      <div>
+        <p>I started in biochemistry, ended up shipping software — turns out the same instinct that runs a controlled experiment runs a clean build: define the system, isolate the variables, test it, ship it.</p>
+        <p>Today that shows up as BizMod, a modular SaaS platform I designed and built solo across 15 production modules, plus a run of Flutter apps built for real, specific problems rather than portfolio filler. I'm currently building GPIA, a Python agent that reads a GitHub profile and writes the CV to match it — because I got tired of doing that by hand.</p>
+        <p>Game development is the newest track: same engineering discipline, aimed at something that's supposed to be fun instead of useful.</p>
+      </div>
+      <dl class="facts">
+        <dt>Based in</dt><dd>Kaduna, Nigeria</dd>
+        <dt>Education</dt><dd>BSc Biochemistry, Kaduna State University (Expected 2025)</dd>
+        <dt>Core stack</dt><dd>Flutter · Python · JavaScript · C</dd>
+        <dt>Game tools</dt><dd>Unity · Godot · Blender</dd>
+        <dt>Flagship build</dt><dd>BizMod — 15 modules, solo-built</dd>
+      </dl>
+    </div>
+  </div>
+</section>
 
-        <section id="skills">
-            <div class="container">
-                <h2>Technical Skills</h2>
-                <div class="skills-grid">
-                    <div class="skill-category">
-                        <h3>Languages & Frameworks</h3>
-                        <ul>
-                            <li>Dart</li>
-                            <li>Flutter</li>
-                            <li>Python</li>
-                            <li>C#</li>
-                            <li>C</li>
-                            <li>HTML/CSS</li>
-                            <li>Flask</li>
-                            <li>Unity</li>
-                            <li>Blender</li>
-                            <li>Godot</li>
-                        </ul>
-                    </div>
-                    <div class="skill-category">
-                        <h3>Databases & Backend</h3>
-                        <ul>
-                            <li>Firebase</li>
-                            <li>Firestore</li>
-                            <li>Firebase Auth</li>
-                            <li>SQLite</li>
-                            <li>SharedPreferences</li>
-                        </ul>
-                    </div>
-                    <div class="skill-category">
-                        <h3>Tools & Platforms</h3>
-                        <ul>
-                            <li>Git</li>
-                            <li>GitHub</li>
-                            <li>VS Code</li>
-                            <li>Android Studio</li>
-                            <li>Bash</li>
-                            <li>Linux</li>
-                            <li>Appetize.io</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
+<section id="services">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Services</h2><div class="sec-line"></div></div>
+    <div class="services">
+      <div class="service">
+        <div class="tag">Flutter</div>
+        <h3>Cross-platform app development</h3>
+        <p>Mobile and desktop apps from one codebase — Firebase or SQLite-backed, built for real users, not just a demo.</p>
+      </div>
+      <div class="service">
+        <div class="tag">Software engineering</div>
+        <h3>SaaS & backend systems</h3>
+        <p>Modular platforms and internal tools, designed like BizMod: independent modules that ship and scale on their own.</p>
+      </div>
+      <div class="service">
+        <div class="tag">Game development</div>
+        <h3>Prototypes & game jams</h3>
+        <p>Fast, playable prototypes in Unity or Godot — good for testing a mechanic before committing to a full build.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <section id="contact">
-            <div class="container">
-                <h2>Contact Me</h2>
-                <div class="contact-container">
-                    <form id="contact-form">
-                        <div class="form-group">
-                            <label for="name">Name:</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Message:</label>
-                            <textarea id="message" name="message" required></textarea>
-                        </div>
-                        <button type="submit">Send Message</button>
-                    </form>
-                    <div class="contact-info">
-                        <h3>Get in Touch</h3>
-                        <p><i class="fas fa-envelope"></i> muhammadmasanawa75@gmail.com</p>
-                        <p><i class="fas fa-phone"></i> 08079785384, 08143133221</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Projects</h2><div class="sec-line"></div></div>
 
-    <footer>
-        <p>&copy; 2024 Muhammad Aliyu Abubakar. All rights reserved.</p>
-    </footer>
+    <div class="track">
+      <div class="track-label">Software engineering / SaaS</div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-top"><h4>BizMod</h4><span class="pill shipped">Shipped</span></div>
+          <p>Modular SaaS platform with 15 independent production modules, designed and built solo end-to-end.</p>
+          <div class="stack">JavaScript · SaaS architecture · Vercel</div>
+          <a class="link" href="https://bizmod.vercel.app" target="_blank" rel="noopener">View live →</a>
+        </div>
+        <div class="card">
+          <div class="card-top"><h4>GPIA</h4><span class="pill progress">In progress</span></div>
+          <p>GitHub Portfolio Intelligence Agent — reads a developer's repos and generates a tailored CV automatically.</p>
+          <div class="stack">Python · AI agent · GitHub API</div>
+          <a class="link" href="https://github.com/mxg-mega/gpia" target="_blank" rel="noopener">View on GitHub →</a>
+        </div>
+        <div class="card placeholder">
+          <p>Next SaaS build<br>— slot open —</p>
+        </div>
+      </div>
+    </div>
 
-    <script src="script.js"></script>
+    <div class="track">
+      <div class="track-label">Flutter development</div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-top"><h4>Shop Mate</h4><span class="pill progress">In progress</span></div>
+          <p>Business management app with sales tracking, inventory, and multi-store support.</p>
+          <div class="stack">Flutter · Firebase · SQLite</div>
+          <a class="link" href="https://github.com/mxg-mega" target="_blank" rel="noopener">View repo →</a>
+        </div>
+        <div class="card">
+          <div class="card-top"><h4>Avatar Duet</h4><span class="pill shipped">Shipped</span></div>
+          <p>3D model viewer for .glb files with interactive visualization and local file handling.</p>
+          <div class="stack">Flutter · 3D assets · File picker</div>
+          <a class="link" href="https://github.com/mxg-mega/HNG-Mobile-Desktop/tree/main/avatar_duet" target="_blank" rel="noopener">View project →</a>
+        </div>
+        <div class="card">
+          <div class="card-top"><h4>Globe Guide</h4><span class="pill shipped">Shipped</span></div>
+          <p>Country information explorer demonstrating REST API integration and dynamic UI rendering.</p>
+          <div class="stack">Flutter · REST API · JSON</div>
+          <a class="link" href="https://github.com/mxg-mega/HNG-Mobile-Desktop/tree/main/globe_guide" target="_blank" rel="noopener">View project →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="track">
+      <div class="track-label">Game development</div>
+      <div class="cards">
+        <div class="card placeholder">
+          <p>Prototype coming soon<br>— slot open —</p>
+        </div>
+        <div class="card placeholder">
+          <p>Prototype coming soon<br>— slot open —</p>
+        </div>
+        <div class="card placeholder">
+          <p>Game jam entry<br>— slot open —</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">04</span><h2>Skills</h2><div class="sec-line"></div></div>
+    <div class="skill-groups">
+      <div class="skill-group">
+        <h3>Languages & frameworks</h3>
+        <div class="chip-row">
+          <span class="chip">Dart</span><span class="chip">Flutter</span><span class="chip">Python</span>
+          <span class="chip">JavaScript</span><span class="chip">C</span><span class="chip">C#</span>
+          <span class="chip">HTML/CSS</span><span class="chip">Flask</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Game & 3D tools</h3>
+        <div class="chip-row">
+          <span class="chip">Unity</span><span class="chip">Godot</span><span class="chip">Blender</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Data & platforms</h3>
+        <div class="chip-row">
+          <span class="chip">Firebase</span><span class="chip">Firestore</span><span class="chip">SQLite</span>
+          <span class="chip">Git</span><span class="chip">Vercel</span><span class="chip">Linux</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="contact-panel" id="contact">
+  <div class="wrap">
+    <div>
+      <div class="sec-head"><span class="sec-num">05</span><h2>Let's build something</h2></div>
+      <p style="max-width:420px;color:#C4CAE0;margin:0 0 24px;">Open for freelance Flutter builds, SaaS/backend work, and game prototypes. Tell me what you're building.</p>
+      <a class="btn primary" href="mailto:muhammadmasanawa75@gmail.com">Email me</a>
+    </div>
+    <div class="contact-links">
+      <a href="mailto:muhammadmasanawa75@gmail.com">muhammadmasanawa75@gmail.com</a>
+      <a href="tel:08079785384">08079785384</a>
+      <a href="https://github.com/mxg-mega" target="_blank" rel="noopener">github.com/mxg-mega</a>
+      <a href="https://www.linkedin.com/in/muhammad-aliyu-abubakar-cipher07" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</div>
+
+<footer>© <span id="year"></span> Muhammad Aliyu Abubakar — Kaduna, Nigeria</footer>
+
+<script>
+(function(){
+  // Dynamic year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Mobile menu
+  window.toggleMenu = function() {
+    const menu = document.getElementById('mobileMenu');
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  };
+
+  // CV links (both versions available)
+  window.downloadCV = function() {
+    window.open('Software_Engineer_Muhammad_Aliyu_Abubakar.pdf', '_blank');
+  };
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine = window.matchMedia('(pointer: fine)').matches;
+  if (reduceMotion || !fine) return;
+
+  // Cursor-following ambient glow
+  var glow = document.createElement('div');
+  glow.className = 'cursor-glow';
+  document.body.appendChild(glow);
+  var mx = 0, my = 0, gx = 0, gy = 0, started = false;
+
+  window.addEventListener('mousemove', function(e){
+    mx = e.clientX; my = e.clientY;
+    if (!started){ gx = mx; gy = my; started = true; }
+    glow.classList.add('active');
+  });
+  window.addEventListener('mouseleave', function(){ glow.classList.remove('active'); });
+
+  function raf(){
+    gx += (mx - gx) * 0.12;
+    gy += (my - gy) * 0.12;
+    glow.style.transform = 'translate(' + gx + 'px,' + gy + 'px) translate(-50%,-50%)';
+    requestAnimationFrame(raf);
+  }
+  raf();
+})();
+</script>
 </body>
 </html>
