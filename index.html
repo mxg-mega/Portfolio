@@ -143,7 +143,7 @@
   .pill{font-family:var(--mono);font-size:10px;padding:3px 7px;border-radius:20px;letter-spacing:0.05em;text-transform:uppercase;white-space:nowrap;}
   .pill.shipped{background:rgba(62,124,89,0.15);color:var(--ok);}
   .pill.progress{background:rgba(242,183,5,0.18);color:#8a6a00;}
-  .pill.slot{background:rgba(75,79,57,0.1);color:var(--ink-soft);}
+  .pill.slot{background:rgba(75,79,87,0.1);color:var(--ink-soft);}
   .card p{font-size:13.5px;color:var(--ink-soft);margin:0 0 14px;flex:1;}
   .stack{font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-bottom:12px;}
   .card a.link{font-family:var(--mono);font-size:12px;font-weight:700;border-bottom:1.5px solid var(--ink);align-self:flex-start;}
@@ -221,7 +221,7 @@
     <p class="sub">I build the modules other people's businesses run on — SaaS platforms, cross-platform apps, and the odd game prototype. One developer, shipped like a team.</p>
     <div class="cta-row">
       <a class="btn primary" href="#contact">Hire me</a>
-      <a class="btn primary" href="Software_Engineer_Muhammad_Aliyu_Abubakar.pdf" target="_blank" rel="noopener">Download CV (Software Engineer)</a>
+      <a class="btn primary" href="Software_Engineer_Muhammad_Aliyu_Abubakar.pdf" target="_blank" rel="noopener">Download CV</a>
       <a class="btn ghost" href="https://github.com/mxg-mega" target="_blank" rel="noopener">View GitHub</a>
       <a class="btn ghost" href="https://bizmod.vercel.app" target="_blank" rel="noopener">See BizMod live</a>
     </div>
@@ -242,7 +242,7 @@
       </div>
       <div class="board-row">
         <div class="label">Game Dev.</div>
-        <div class="status"><span class="dot proto"></span>Prototype</div>
+        <div class="status"><span class="dot on"></span>Prototype live</div>
       </div>
       <div class="board-row">
         <div class="label">Availability</div>
@@ -347,8 +347,11 @@
     <div class="track">
       <div class="track-label">Game development</div>
       <div class="cards">
-        <div class="card placeholder">
-          <p>Prototype coming soon<br>— slot open —</p>
+        <div class="card">
+          <div class="card-top"><h4>Tap Target</h4><span class="pill progress">Prototype</span></div>
+          <p>Fast-paced arcade reflex game — tap geometric targets before they vanish against a neon Tron-style grid. Time Boosters, Score Drainers, and Double Multipliers force split-second risk calls as the clock runs out.</p>
+          <div class="stack">Unity · C# · WebGL/HTML5</div>
+          <a class="link" href="https://raazi.itch.io/tap-target" target="_blank" rel="noopener">Play on itch.io →</a>
         </div>
         <div class="card placeholder">
           <p>Prototype coming soon<br>— slot open —</p>
@@ -419,11 +422,6 @@
     menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
   };
 
-  // CV links (both versions available)
-  window.downloadCV = function() {
-    window.open('Software_Engineer_Muhammad_Aliyu_Abubakar.pdf', '_blank');
-  };
-
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var fine = window.matchMedia('(pointer: fine)').matches;
   if (reduceMotion || !fine) return;
@@ -448,6 +446,21 @@
     requestAnimationFrame(raf);
   }
   raf();
+
+  // 3D tilt effect
+  var tiltEls = document.querySelectorAll('.card:not(.placeholder), .service');
+  tiltEls.forEach(function(el){
+    el.style.transformStyle = 'preserve-3d';
+    el.addEventListener('mousemove', function(e){
+      var r = el.getBoundingClientRect();
+      var px = (e.clientX - r.left) / r.width - 0.5;
+      var py = (e.clientY - r.top) / r.height - 0.5;
+      el.style.transform = 'perspective(700px) rotateX(' + (py * -7) + 'deg) rotateY(' + (px * 7) + 'deg) translateY(-2px)';
+    });
+    el.addEventListener('mouseleave', function(){
+      el.style.transform = '';
+    });
+  });
 })();
 </script>
 </body>
